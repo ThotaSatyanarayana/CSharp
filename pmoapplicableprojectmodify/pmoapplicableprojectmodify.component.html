@@ -1,0 +1,128 @@
+<div class="fullscreen">
+    <div class="container-header d-flex justify-content-between align-items-center">
+        <h4> PMO Applicable (Edit Status) </h4>
+    </div>
+    <div class="dropdowns-container">
+        <div class="dropdown-item">
+            <label for="regionFilter">Region:</label>
+            <select class="form-select" [(ngModel)]="selectedRegions" (change)="onRegionChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="countryFilter">Country:</label>
+            <select class="form-select" [(ngModel)]="selectedCountries" (change)="onCountryChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let country of filteredCountries" [value]="country">{{ country }}</option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="sbuFilter">SBU Name:</label>
+            <select class="form-select form-control" [(ngModel)]="selectedSbuNames" (change)="onSbuNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let sbuName of filteredSbuNames" [value]="sbuName">{{ sbuName }}</option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="accountNameFilter">Account Name:</label>
+            <select class="form-select " [(ngModel)]="selectedAccountNames" (change)="onAccountNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let accountName of filteredAccountNames" [value]="accountName">{{ accountName }}
+                </option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="projectNameFilter">Project Name:</label>
+            <select class="form-select" [(ngModel)]="selectedProjectNames" (change)="onProjectNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let projectName of filteredProjectNames" [value]="projectName">{{ projectName }}
+                </option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="projectNameFilter">Filter by Applicable:</label>
+            <select class="form-select" [(ngModel)]="selectedapplicableStatus" (change)="onApplicableChange()">
+                <option value="" disabled selected>-- Select--</option>
+                <option *ngFor="let applicableStatus of filteredApplicable" [ngValue]="applicableStatus">{{
+                    applicableStatus }}</option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <button class="red-button" (click)="resetFilter()">Reset</button>
+        </div>
+    </div>
+    <div class="controls-container">
+        <div class="checkbox-container">
+        </div>
+    </div>
+    <div class="responsive-container text-center">
+        <ag-grid-angular style="height: 100%" class="ag-theme-alpine users-grid" [rowData]="rowData"
+            [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [frameworkComponents]="frameAdmin"
+            [pagination]="true" [paginationPageSize]="pageSize" [unSortIcon]="true" (rowClicked)="onRowClicked($event)"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+    
+    <!-- <app-pciphpapplicable *ngIf="showpopup" [selectedRowData]="selectedColumnData" (dataEvent)="onDataReceived($event)"
+        #content></app-pciphpapplicable> -->
+
+        <div *ngIf="visible" class="overlay">
+            <div class="card flex justify-content-center">
+                <p-dialog header="Applicable Status" [(visible)]="visible" [style]="{width: '50vw'}">
+                    <!-- <div class="p-field">
+                        <label for="dropdown"><b>Applicable:</b></label>
+                        <select id="dropdown" [(ngModel)]="selectedOption" class="form-control">
+                            <option value="" disabled selected>-- Select Applicable Status --</option>
+                            <option *ngFor="let option of value" [value]="option.value">{{ option.label }}</option>
+                        </select>
+                    </div> -->
+                    <div> 
+                        <label style="margin-bottom: 2%;"> <b>Project Name: </b> {{ this.PName }}   </label>
+                    </div>
+                    <div> 
+                        <label style="margin-bottom: 1%;"> <b>Applicable Status: </b> {{ this.PStatus }}   </label>
+                    </div>
+                    <div> 
+                        <label style="margin-bottom: 2%;"> <b>Reason: </b> {{ this.PReasonApplicable }}   </label>
+                    </div>
+                    <div >
+                        <label for="dropdown"><b>Applicable:</b></label>
+                        <select class="form-select" [(ngModel)]="selectedOption" >
+                            <option value="" disabled selected>--Select--</option>
+                            <option *ngFor="let option of value" [value]="option.value">{{ option.label }}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="text" *ngIf="selectedOption === 'false'">
+                        <label><b>Reason:</b><span class="asterisk">*</span></label>
+                        <input type="text" id="reason" [(ngModel)]="reason" class="form-control small-input" />
+                        <div *ngIf="!reason.trim()" class="asterisk">Reason is required</div>
+                    </div>
+        
+                  
+                    <!-- <div class="p-buttons">
+                        <button pButton type="button" label="Save" [disabled]="selectedOption === 'false' && !reason.trim()" (click)="submit()"></button>
+                        <button pButton type="button" label="Cancel" (click)="close()"></button>
+                    </div> -->
+                    
+                    <div class="p-buttons">
+                        <button pButton type="button" label="Submit" [disabled]="!selectedOption || selectedOption === '' || (selectedOption === 'false' && !reason.trim())" (click)="submit()"></button>
+                        <button pButton type="button" label="Cancel" (click)="close()" style="background-color:red;"></button>
+                    </div>
+                </p-dialog>
+            </div>
+        </div>
+        
+        
+
+</div>
+
+<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true" [delay]="toast.delay"
+    (hidden)="toastService.remove(toast)">
+    <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+    </ng-template>
+    <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+</ngb-toast>

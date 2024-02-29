@@ -1,0 +1,179 @@
+.fullscreen {
+    border-radius: 10px;
+    width: auto;
+    background-color: white;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+  
+  .fullscreen .container-header {
+    padding: 12px 15px;
+    background-color: #1564e0;
+    color: #ffffff;
+  }
+  
+  /* AG Grid */
+  .responsive-container {
+    width: 100%;
+    height: 540px;
+    overflow: auto;
+  }
+  
+  .checkbox-header {
+    text-align: center;
+  }
+  
+  .header-checkbox {
+    width: 16px;
+    height: 16px;
+    background-color: #007bff;
+    border-radius: 3px;
+    margin: auto;
+    cursor: pointer;
+  }
+  
+  .header-checkbox:hover {
+    background-color: #0056b3;
+  }
+  
+  .dropdowns-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0px 25px;
+    
+  }
+  
+  .dropdown-item {
+    flex: .2 0 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    margin-bottom: 20px;
+  }
+  
+  .select-container {
+    width: 100px;
+    display: flex;
+    margin-top: 1px;
+  }
+  
+  .dropdown-item label {
+    margin-bottom: 1px;
+    font-weight: bold;
+  }
+  
+  
+  .form-select {
+    width: 100%;
+    border-radius: 3px;
+    font-size: 14px;
+    border: 1px solid #dce7ef;
+    padding: 8px 30px 8px 8px;
+    box-shadow: 2px 2px 5px #c2c6cd;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .form-select-2{
+    width: 100%;
+    border-radius: 3px;
+    font-size: 14px;
+    border: 1px solid #dce7ef;
+    padding: 8px 30px 8px 8px;
+    box-shadow: 2px 2px 5px #c2c6cd;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  
+  .form-select:focus {
+    box-shadow: 2px 2px 5px #c2c6cd;
+  }
+  .red-button {
+    font-size: 16px;
+    padding: 7px 22px;
+    background-color: red;   /* #dc3545; */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+  }
+  
+  .reset-button button.btn{
+    font-size: 16px;
+    padding: 7px 22px;
+    background-color:#007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .filter-select-container {
+    margin-top: 5px; 
+  }
+  
+  .reset-button {
+    margin-bottom: 10px;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    gap: 20px; 
+  }
+  .checkbox-container .checkbox-item input{
+    margin-left: 15px;
+  }
+  /* {
+    margin-right: 100px; 
+    margin-top: 2px;
+    
+  } */
+  
+  
+  
+  
+  .controls-container {
+    display: flex;
+    justify-content: space-between; 
+    padding: 5px 25px;
+  }
+  
+  .controls-container label {
+    font-weight: bold;
+  }
+  
+  .p-field{
+    width: 80%;
+  }
+  .p-buttons{
+    display: flex;
+    padding: 5px 0px;
+     justify-content: space-between;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value to control transparency */
+    z-index: 1000; /* Ensure the overlay appears above other elements */
+  }
+  .asterisk {
+    color: red;
+  }

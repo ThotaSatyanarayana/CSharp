@@ -1,0 +1,195 @@
+<div class="fullscreen">
+    <div class="container-header d-flex justify-content-between align-items-center">
+        <h4> PHP/PCI Status (Edit Status) </h4>
+    </div>
+    <!-- <div class="dropdowns-container">
+        <div class="dropdown-item">
+            <label for="regionFilter">Region:</label>
+            <select class="form-select" [(ngModel)]="selectedRegions" (change)="onRegionChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+            </select>
+        </div>
+       
+        <div class="dropdown-item">
+            <label for="countryFilter">Country:</label>
+            <select class="form-select" [(ngModel)]="selectedCountries" (change)="onCountryChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let country of filteredCountries" [value]="country">{{ country }}</option>
+            </select>
+        </div>
+
+        <div class="dropdown-item">
+            <label for="sbuFilter">SBU Name:</label>
+            <select class="form-select form-control" [(ngModel)]="selectedSbuNames" (change)="onSbuNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let sbuName of filteredSbuNames" [value]="sbuName">{{ sbuName }}</option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="accountNameFilter">Account Name:</label>
+            <select class="form-select " [(ngModel)]="selectedAccountNames" (change)="onAccountNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let accountName of filteredAccountNames" [value]="accountName">{{ accountName }}
+                </option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="projectNameFilter">Project Name:</label>
+            <select class="form-select" [(ngModel)]="selectedProjectNames" (change)="onProjectNameChange()">
+                <option value="" disabled selected>--Select--</option>
+                <option *ngFor="let projectName of filteredProjectNames" [value]="projectName">{{ projectName }}
+                </option>
+            </select>
+        </div>
+        <div class="dropdown-item">
+            <label for="projectNameFilter">Filter by PCI-PHP:</label>
+            <select class="form-select" [(ngModel)]="selectedValue" (change)="onChange(selectedValue)">
+                <option value="" disabled selected>-- Select Filter --</option>
+                <option *ngFor="let option of value" [ngValue]="option.value">{{ option.label }}</option>
+            </select>
+        </div>
+    </div> -->
+
+<!-- 
+    <div class="controls-container">
+        <div class="filter-container">
+                <label calss="phpFilter">Filter by PHP:</label>
+                <div class="filter-select-container">
+                    <select class="form-select-2"  [(ngModel)]="selectedValue" (change)="onChange(selectedValue)">
+                        <option value="" disabled selected>-- Select Filter --</option>
+                        <option *ngFor="let option of value" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </div>
+            </div>
+
+        <div class="checkbox-container">
+            <div class="checkbox-item">
+                <label>Multi select PCI-IsActive:</label>
+                <input type="checkbox" [(ngModel)]="allRowsSelectedPCI" (change)="selectAllRowsPCI($event)" />
+            </div>
+            <div class="checkbox-item">
+                <label>Multi select PHP-IsActive</label>
+                <input type="checkbox" [(ngModel)]="allRowsSelectedphp" (change)="selectAllRowsPhp($event)" />
+            </div>
+        </div>
+
+        
+    </div> -->
+
+    <div>
+        <div class="reset-button">
+            <button class="btn" (click)="PhpPCIsubmit()"
+                [disabled]="this.selectedProjectDetailsIDs.length === 0 && this.selectedProjectDetailsIDsPhp.length === 0">
+                Save
+            </button>
+            <button class="red-button" (click)="resetFilter()">Reset</button>
+        </div>
+    </div>
+   
+
+
+
+    <div class="responsive-container text-center">
+        <ag-grid-angular style="height: 100%" class="ag-theme-alpine users-grid" [rowData]="rowData"
+            [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [frameworkComponents]="frameAdmin"
+            [pagination]="true" [paginationPageSize]="pageSize" [unSortIcon]="true" (rowClicked)="onRowClicked($event)"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+    <div *ngIf="visiblenewpci" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visiblenewpci" [style]="{width: '50vw'}">
+                <p><b>Do you want Continue to move to PCI-InActive? </b></p>
+                    <div class="p-buttons">
+                        <button pButton type="button" label="Continue" (click)="ContinuePCI()" style="background-color:green"
+                           ></button>
+                        <button pButton type="button" label="Cancel" (click)="close()" style="background-color:red;"></button>
+                    </div>
+
+            </p-dialog>
+        </div>
+    </div>
+    <div *ngIf="visiblenewphp" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visiblenewphp" [style]="{width: '50vw'}">
+                <p><b>Do you want Continue to move to PHP-InActive? </b></p>
+                    <div class="p-buttons">
+                        <button pButton type="button" label="Continue" (click)="ContinuePHP()" style="background-color:green;"
+                           ></button>
+                        <button pButton type="button" label="Cancel" (click)="close()" style="background-color:red;"></button>
+                    </div>
+
+            </p-dialog>
+        </div>
+    </div>
+
+    <div *ngIf="visible" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visible" [style]="{width: '50vw'}">
+
+                <div class="p-field">
+                    <label for="inputText"><b>Please Enter Reason:</b> <span class="asterisk">*</span></label>
+                    <input id="inputText" type="text" [(ngModel)]="inputValue"  placeholder="Please Enter Reason"
+                        (ngModelChange)="inputValue = $event.trim()" />
+                        <div class="asterisk">Reason is required</div>
+                </div>
+                <div class="p-buttons">
+                    <button pButton type="button" label="Submit" (click)="submitInput()"
+                        [disabled]="!inputValue"></button>
+                    <button pButton type="button" label="Cancel" (click)="close()" style="background-color:red;"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+
+    <div *ngIf="visiblepciphp" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialogcheckboxs()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visiblepciphp" [style]="{width: '50vw'} ">
+
+                <div class="p-field">
+                    <label for="inputText"><b>Please Enter Reason:</b>  <span class="asterisk">*</span></label>
+                    <input id="inputText" type="text" [(ngModel)]="newinputValue" placeholder="Please Enter Reason"
+                        (ngModelChange)="!newinputValue = $event.trim()" />
+                        <div class="asterisk">Reason is required</div>
+                </div>
+                <div class="p-buttons">
+                    <button pButton type="button" label="Submit" (click)="submitckeckBoxPHP()"
+                        [disabled]="!newinputValue"></button>
+                    <button pButton type="button" label="Cancel" (click)="close()"  style="background-color:red;"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+
+    <div *ngIf="visiblepci" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialogcheckboxs()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="PCI Uncheck box  Reason" [(visible)]="visiblepci" [style]="{width: '50vw'}">
+
+                <div class="p-field">
+                    <label for="inputText"><b>Reason:</b></label>
+                    <input id="inputText" type="text" [(ngModel)]="inputValuepci"
+                        (ngModelChange)="!inputValuepci = $event.trim()" />
+                </div>
+                <div class="p-buttons">
+                    <button pButton type="button" label="Submit" (click)="submitckeckBoxpci()"
+                        [disabled]="!inputValuepci"></button>
+                    <button pButton type="button" label="Cancel" (click)="close()" style="background-color:red;"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+
+</div>
+<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true" [delay]="toast.delay"
+    (hidden)="toastService.remove(toast)">
+    <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+    </ng-template>
+    <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+</ngb-toast>

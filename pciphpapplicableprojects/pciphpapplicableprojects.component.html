@@ -1,0 +1,80 @@
+<div class="fullscreen">
+    <div class="container-header d-flex justify-content-between align-items-center">
+        <h4>PHP/PCI Applicable projects</h4>
+    </div>
+    <div class="controls-container">
+
+        <div class="checkbox-container">
+            <div class="checkbox-item">
+                <label>Select all PCI-IsActive:</label>
+                <input type="checkbox" [(ngModel)]="allRowsSelectedPCI" (change)="selectAllRowsPCI($event)" />
+            </div>
+            <div class="checkbox-item">
+                <label> Select all PHP-IsActive:</label>
+                <input type="checkbox" [(ngModel)]="allRowsSelectedphp" (change)="selectAllRowsPhp($event)" />
+            </div>
+        </div>
+
+        <div class="reset-button">
+            <button class="btn" (click)="PhpPCIsubmit()"
+                [disabled]="this.selectedProjectDetailsIDs.length === 0 && this.selectedProjectDetailsIDsPhp.length === 0">
+                Save
+            </button>
+            <button class="red-button" (click)="resetFilter()">Reset</button>
+
+        </div>
+    </div>
+
+    <div class="responsive-container text-center">
+        <ag-grid-angular style="height: 100%" class="ag-theme-alpine users-grid" [rowData]="rowData"
+            [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [frameworkComponents]="frameAdmin"
+            [pagination]="true" [paginationPageSize]="pageSize" [unSortIcon]="true" (rowClicked)="onRowClicked($event)"
+            (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+    </div>
+
+    <div *ngIf="visiblenew" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visiblenew" [style]="{width: '50vw'}">
+                <p><b>Do you want to move this Project PMO Not Applicable? </b></p>
+                    <div class="p-buttons">
+                        <button pButton type="button" label="Continue" (click)="Continue()"  style="background-color: green;"
+                           ></button>
+                        <button pButton type="button" label="Cancel" (click)="close()"  style="background-color: red;"></button>
+                    </div>
+
+            </p-dialog>
+        </div>
+    </div>
+
+    <div *ngIf="visible" class="overlay">
+        <div class="card flex justify-content-center">
+            <!-- <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+            <p-dialog header="Alert" [(visible)]="visible" [style]="{width: '50vw'}">
+
+                <div class="p-field">
+                    <label for="inputText"><b>Please Enter Reason:</b><span class="asterisk">*</span></label>
+                    <input id="inputText" type="text" [(ngModel)]="inputValue" placeholder="Please Enter Reason"
+                        (ngModelChange)="inputValue = $event.trim()" />
+                        <div class="asterisk">Reason is required</div>
+                </div>
+                
+                <div class="p-buttons">
+                    <button pButton type="button" label="Submit" (click)="submitInput()"
+                        [disabled]="!inputValue"></button>
+                    <button pButton type="button" label="Cancel" (click)="close()"  style="background-color: red;"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+
+
+</div>
+<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true" [delay]="toast.delay"
+    (hidden)="toastService.remove(toast)">
+    <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+    </ng-template>
+    <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+</ngb-toast>
